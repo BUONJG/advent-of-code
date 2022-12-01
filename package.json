@@ -4,7 +4,7 @@
   "description": "My resolutions of advent of code puzzles",
   "main": "index.js",
   "engines": {
-    "node": "14"
+    "node": "16"
   },
   "scripts": {
     "build": "tsc",
