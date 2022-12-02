@@ -7,10 +7,10 @@ import { IoHelper, FileHelper, PromiseHelper } from './helpers';
 
     console.log(`Executing Year ${year} / Day ${day}`);
 
-    const controlLocation = `./data/${year}/day-${day}/control`;
-    const solutionLocation = `./data/${year}/day-${day}/solutions.json`;
-    const inputLocation = `./data/${year}/day-${day}/input`;
-    const scriptLocation = `./src/${year}/day-${day}.ts`;
+    const controlLocation = `./data/${year}-day-${day}.control`;
+    const solutionLocation = `./data/${year}-day-${day}.control.json`;
+    const inputLocation = `./data/${year}-day-${day}.input`;
+    const scriptLocation = `./src/${year}-day-${day}.ts`;
 
     await FileHelper.writeIfNotExists(controlLocation, '');
     await FileHelper.writeIfNotExists(solutionLocation, '[null, null]');
@@ -19,7 +19,7 @@ import { IoHelper, FileHelper, PromiseHelper } from './helpers';
         await PromiseHelper.wait(2);
     }
 
-    const action = await import(`./${year}/day-${day}`);
+    const action = await import(`./${year}-day-${day}`);
     const controlInput = await FileHelper.read(controlLocation);
     const controlSolutions = await action.default(controlInput);
 
