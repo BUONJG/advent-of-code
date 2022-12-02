@@ -16,7 +16,7 @@ import { IoHelper, FileHelper, PromiseHelper } from './helpers';
     const inputLocation = `./inputs/${year}/day-${day}/input`;
     await FileHelper.writeIfNotExists(inputLocation, '');
 
-    const created = await FileHelper.writeIfNotExists(`./src/${year}/day-${day}.ts`, 'export default async (input: string) => {\nreturn [1, null];\n}\n\n');
+    const created = await FileHelper.writeIfNotExists(`./src/${year}/day-${day}.ts`, 'export default async (input: string) => {\nreturn [null, null];\n}\n\n');
     if (created) {
         await PromiseHelper.wait(2);
     }
@@ -39,7 +39,7 @@ import { IoHelper, FileHelper, PromiseHelper } from './helpers';
     const input = await FileHelper.read(`./inputs/${year}/day-${day}/input`);
     const solutions: number[] = await action.default(input);
     solutions.forEach((solution, index) => {
-        console.log(`Solution ${index+1}: ${solution}`);
+        console.log(`Solution ${index+1}: ${solution ?? 'Not implemented yet...'}`);
     });
 
 })()
