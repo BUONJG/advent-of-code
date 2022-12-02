@@ -1,5 +1,3 @@
-import * as _ from 'lodash';
-
 const countIncreases = (values: number[]): number => {
     let increaseCount = 0;
     values.forEach((value, index) => {

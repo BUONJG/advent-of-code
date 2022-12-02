@@ -1,10 +1,10 @@
-import * as _ from 'lodash';
+import { _sortBy, _sum } from './helpers';
 
 export default async (input: string) => {
     const caloriesByElves = input.split('\n\n').map(g => g.split('\n').map(v => +v));
-    const totalCaloriesByElves = caloriesByElves.map(calories => _.sum(calories));
+    const totalCaloriesByElves = caloriesByElves.map(calories => _sum(calories));
 
-    const sortedElves = _.sortBy(totalCaloriesByElves).reverse();
+    const sortedElves = _sortBy(totalCaloriesByElves).reverse();
 
     return [sortedElves[0], sortedElves[0] + sortedElves[1] + sortedElves[2]];
 }
