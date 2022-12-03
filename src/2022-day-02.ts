@@ -1,5 +1,5 @@
 
-import { Switch, Tuple, _sum } from "./helpers";
+import { InputParser, Switch, Tuple, _sum } from "./helpers";
 
 type Shape = 'Rock' | 'Paper' | 'Scissors';
 type Code1 = 'A' | 'B' | 'C' | 'X' | 'Y' | 'Z';
@@ -32,9 +32,8 @@ const getShapePoints = (shape: Shape): ShapePoint => {
         .exhaustive();
 }
 
-export default async (input: string) => {
-
-    const rounds1 = input.split('\n').map(r => r.split(' ').map(r => parseShape(r as Code1)));
+export default async (input: InputParser) => {
+    const rounds1 = input.getLines().map(l => l.getValues<string>(' ').map(r => parseShape(r as Code1)));
 
     const getScore = (shape1: Shape, shape2: Shape): RoundResult => {
         return Switch<Tuple<Shape, 2>, RoundResult>([shape1, shape2])
@@ -47,7 +46,7 @@ export default async (input: string) => {
 
     const totalScore1 = _sum(rounds1.map(([shape1, shape2]) => getShapePoints(shape2) + getScore(shape1, shape2)));
 
-    const rounds2: [Shape, RoundResult][] = input.split('\n').map(r => r.split(' ')).map(r => [parseShape(r[0] as Code1), parseRoundResult(r[1] as Code2)]);
+    const rounds2: [Shape, RoundResult][] = input.getLines().map(r => r.getValues<string>(' ')).map(r => [parseShape(r[0] as Code1), parseRoundResult(r[1] as Code2)]);
 
     const getShape2 = (shape1: Shape, roundResult: RoundResult): Shape => {
         return shapes.find(shape2 => getScore(shape1, shape2) === roundResult);

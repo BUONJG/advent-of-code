@@ -1,7 +1,7 @@
-import { _sortBy, _sum } from './helpers';
+import { InputParser, _sortBy, _sum } from './helpers';
 
-export default async (input: string) => {
-    const caloriesByElves = input.split('\n\n').map(g => g.split('\n').map(v => +v));
+export default async (input: InputParser) => {
+    const caloriesByElves = input.getGroupOfLines().map(g => g.map(l => l.getNumber()));
     const totalCaloriesByElves = caloriesByElves.map(calories => _sum(calories));
 
     const sortedElves = _sortBy(totalCaloriesByElves).reverse();

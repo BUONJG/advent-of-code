@@ -4,3 +4,4 @@ export * from './promise-helper';
 export * from './lodash';
 export * from './switch';
 export * from './types';
+export * from './input-parser';

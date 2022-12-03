@@ -1,7 +1,9 @@
+import { InputParser } from './helpers';
+
 type direction = 'forward' | 'up' | 'down';
 
-export default async (input: string) => {
-    const instructions: [direction, number][] = input.split('\n').map(i => i.split(' ')).map(i => ([i[0] as any, +i[1]]));
+export default async (input: InputParser) => {
+    const instructions: [direction, number][] = input.getLines().map(l => l.get().split(' ')).map(i => ([i[0] as any, +i[1]]));
 
     const position1 = { horizontal: 0, depth: 0 };
     instructions.forEach(([direction, value]) => {

@@ -1,3 +1,5 @@
+import { InputParser } from './helpers';
+
 const countIncreases = (values: number[]): number => {
     let increaseCount = 0;
     values.forEach((value, index) => {
@@ -9,8 +11,8 @@ const countIncreases = (values: number[]): number => {
     return increaseCount;
 }
 
-export default async (input: string) => {
-    const sonarValues = input.split('\n').map(v => +v);
+export default async (input: InputParser) => {
+    const sonarValues = input.getNumbers();
     const cumulativeSonarValues = sonarValues.map((v, i) => i > 1 ? v + sonarValues[i - 1] + sonarValues[i - 2] : null).filter(v => v !== null);
 
     return [countIncreases(sonarValues), countIncreases(cumulativeSonarValues)];

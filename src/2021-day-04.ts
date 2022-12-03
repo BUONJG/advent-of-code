@@ -1,18 +1,18 @@
-import { Tuple, _flatMapDeep, _sum, _zip } from './helpers';
+import { InputParser, _flatMapDeep, _sum, _zip } from './helpers';
 
 interface BoardItem {
     value: number;
     marked: boolean;
 }
 
-type BoardLine = Tuple<BoardItem, 5>;
-type Board = Tuple<BoardLine, 5>;
+type BoardLine = BoardItem[];
+type Board = BoardLine[];
 
-export default async (input: string) => {
+export default async (input: InputParser) => {
     return [part1(input), part2(input)];
 }
 
-function part1(input: string): number {
+function part1(input: InputParser): number {
     const { drawnNumbers, boards } = parseInput(input);
 
     let winningBoard: Board; let lastDrawNumber: number;
@@ -25,7 +25,7 @@ function part1(input: string): number {
     return sumOfUnmarkedNumbers(winningBoard) * lastDrawNumber;
 }
 
-function part2(input: string): number {
+function part2(input: InputParser): number {
     const { drawnNumbers, boards } = parseInput(input);
 
     let remainingBoards = [...boards]; let lastWinningBoard: Board; let lastDrawNumber: number;
@@ -39,10 +39,10 @@ function part2(input: string): number {
     return sumOfUnmarkedNumbers(lastWinningBoard) * lastDrawNumber;
 }
 
-function parseInput(input: string) {
-    const [drawnNumbersInput, ...boardInputs] = input.split('\n\n');
-    const drawnNumbers = drawnNumbersInput.split(',').map(v => +v);
-    const boards: Board[] = <any>boardInputs.map(b => b.split('\n').map(bl => bl.split(' ').filter(s => s !== '').map(s => ({ value: +s, marked: false }))));
+function parseInput(input: InputParser) {
+    const [drawnNumbersInput, ...boardInputs] = input.getGroupOfLines();
+    const drawnNumbers = drawnNumbersInput[0].getNumbers(',');
+    const boards: Board[] = boardInputs.map(b => b.map(bl => bl.getNumbers(' ').map(value => ({ value, marked: false }))));
 
     return { drawnNumbers, boards };
 }
@@ -70,7 +70,7 @@ function isWinningBoard(board: Board): boolean {
 }
 
 function transpose(board: Board): Board {
-    return <any>_zip(...board);
+    return _zip(...board);
 }
 
 function sumOfUnmarkedNumbers(board: Board): number {

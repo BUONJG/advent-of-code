@@ -1,4 +1,4 @@
-import { IoHelper, FileHelper, PromiseHelper } from './helpers';
+import { IoHelper, FileHelper, PromiseHelper, InputParser } from './helpers';
 
 const execute = async (year: number | string, day: number | string, bootstrapIfMissing = false): Promise<void> => {
     day = `00${day}`.slice(-2);
@@ -25,7 +25,7 @@ const execute = async (year: number | string, day: number | string, bootstrapIfM
 
     const action = await import(`./${year}-day-${day}`);
     const controlInput = await FileHelper.read(controlLocation);
-    const controlSolutions = await action.default(controlInput);
+    const controlSolutions = await action.default(new InputParser(controlInput));
 
     if (!Array.isArray(controlSolutions) || controlSolutions.length !== 2) {
         throw new Error(`Incorrect response (array expected)!`);
@@ -43,7 +43,7 @@ const execute = async (year: number | string, day: number | string, bootstrapIfM
         throw new Error(`Please set your input in ${inputLocation}`);
     }
 
-    const solutions: number[] = await action.default(input);
+    const solutions: number[] = await action.default(new InputParser(input));
     solutions.forEach((solution, index) => {
         console.log(`Solution ${index + 1}: ${solution ?? 'Not implemented yet...'}`);
     });

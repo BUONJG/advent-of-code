@@ -1,6 +1,8 @@
-export default async (input: string) => {
+import { InputParser } from './helpers';
+
+export default async (input: InputParser) => {
     type Bit = '0' | '1';
-    const positions = input.split('\n');
+    const positions = input.getValues<string>();
 
     let gamaRate = '';
     let epsilonRate = '';
