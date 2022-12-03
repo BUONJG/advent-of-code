@@ -5,3 +5,4 @@ export * from './lodash';
 export * from './switch';
 export * from './types';
 export * from './input-parser';
+export * from './assert';

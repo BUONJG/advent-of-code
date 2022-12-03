@@ -15,11 +15,12 @@ const execute = async (year: number | string, day: number | string, bootstrapIfM
     const controlLocation = `./data/${year}-day-${day}.control`;
     const solutionLocation = `./data/${year}-day-${day}.control.json`;
     const inputLocation = `./data/${year}-day-${day}.input`;
+    const templateLocation = `./src/template.ts`;
 
     await FileHelper.writeIfNotExists(controlLocation, '');
     await FileHelper.writeIfNotExists(solutionLocation, '[null, null]');
     await FileHelper.writeIfNotExists(inputLocation, '');
-    if (await FileHelper.writeIfNotExists(scriptLocation, 'export default async (input: string) => {\nreturn [null, null];\n}\n\n')) {
+    if (await FileHelper.writeIfNotExists(scriptLocation, await FileHelper.read(templateLocation))) {
         await PromiseHelper.wait(2);
     }
 
@@ -59,7 +60,7 @@ const execute = async (year: number | string, day: number | string, bootstrapIfM
     } else {
         const year = await IoHelper.ask('Event year: ', '-y');
         const day = await IoHelper.ask('Day: ', '-d');
-        await execute(year, day);
+        await execute(year, day, true);
     }
 })()
     .then(() => process.exit(0))

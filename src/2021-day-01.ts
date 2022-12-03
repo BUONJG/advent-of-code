@@ -11,9 +11,17 @@ const countIncreases = (values: number[]): number => {
     return increaseCount;
 }
 
-export default async (input: InputParser) => {
+function part1(input: InputParser): number {
+    const sonarValues = input.getNumbers();
+    return countIncreases(sonarValues);
+}
+
+function part2(input: InputParser): number {
     const sonarValues = input.getNumbers();
     const cumulativeSonarValues = sonarValues.map((v, i) => i > 1 ? v + sonarValues[i - 1] + sonarValues[i - 2] : null).filter(v => v !== null);
+    return countIncreases(cumulativeSonarValues);
+}
 
-    return [countIncreases(sonarValues), countIncreases(cumulativeSonarValues)];
+export default async (input: InputParser) => {
+    return [part1(input), part2(input)];
 }
