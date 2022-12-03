@@ -35,6 +35,10 @@ import { IoHelper, FileHelper, PromiseHelper } from './helpers';
     })
 
     const input = await FileHelper.read(inputLocation);
+    if (!input) {
+        throw new Error(`Please set your input in ${inputLocation}`);
+    }
+
     const solutions: number[] = await action.default(input);
     solutions.forEach((solution, index) => {
         console.log(`Solution ${index + 1}: ${solution ?? 'Not implemented yet...'}`);

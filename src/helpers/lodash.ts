@@ -1,1 +1,1 @@
-export { sum as _sum, sortBy as _sortBy } from 'lodash';
+export { sum as _sum, sortBy as _sortBy, flatMapDeep as _flatMapDeep, zip as _zip } from 'lodash';

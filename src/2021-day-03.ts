@@ -1,5 +1,5 @@
 export default async (input: string) => {
-    type bit = '0' | '1';
+    type Bit = '0' | '1';
     const positions = input.split('\n');
 
     let gamaRate = '';
@@ -8,15 +8,15 @@ export default async (input: string) => {
     let oxygenRatingPositions = [...positions];
     let co2ScrubberRatingPositions = [...positions];
 
-    const getCounts = (positions: string[], index: number): Map<bit, Number> => {
-        const result = new Map<bit, number>();
+    const getCounts = (positions: string[], index: number): Map<Bit, Number> => {
+        const result = new Map<Bit, number>();
         const bits = positions.map(p => p[index]);
         result.set('0', bits.filter(b => b === '0').length);
         result.set('1', bits.filter(b => b === '1').length);
         return result;
     }
 
-    const getMostCommonBit = (positions: string[], index: number, defaultResponse: bit): bit => {
+    const getMostCommonBit = (positions: string[], index: number, defaultResponse: Bit): Bit => {
         const counts = getCounts(positions, index);
         if (counts.get('0') === counts.get('1')) {
             return defaultResponse;
@@ -25,7 +25,7 @@ export default async (input: string) => {
         return counts.get('0') > counts.get('1') ? '0' : '1';
     }
 
-    const getLeastCommonBit = (positions: string[], index: number, defaultResponse: bit): bit => {
+    const getLeastCommonBit = (positions: string[], index: number, defaultResponse: Bit): Bit => {
         const counts = getCounts(positions, index);
         if (counts.get('0') === counts.get('1')) {
             return defaultResponse;
