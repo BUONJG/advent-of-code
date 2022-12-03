@@ -1,5 +1,5 @@
 
-import { assert, InputParser, Switch, _chunk, _intersection, _sumBy } from './helpers';
+import { assert, InputParser, Switch, _chunk, _flatMapDeep, _intersection, _sumBy } from './helpers';
 
 const getItemPriority = (item: string): number => {
     return Switch<string, number>(item)
@@ -8,7 +8,7 @@ const getItemPriority = (item: string): number => {
         .exhaustive();
 }
 
-const getCommonItem = (compartiments: [string[], string[]]): string => {
+const getCommonItem = (compartiments: string[][]): string => {
     const intersection = _intersection(...compartiments);
     assert(intersection.length === 1, 'Only one item should be in common!');
     return _intersection(...compartiments)[0];
@@ -20,13 +20,19 @@ const getCompartimentedItems = (items: string): [string[], string[]] => {
     return [chunks[0], chunks[1]];
 }
 
+const getItems = (items: string): string[] => {
+    return _flatMapDeep(_chunk(items, 1));
+}
+
 function part1(input: InputParser): number {
     const rucksackCommonItems = input.getValues<string>().flatMap(r => getCommonItem(getCompartimentedItems(r)));
     return _sumBy(rucksackCommonItems, i => getItemPriority(i));
 }
 
 function part2(input: InputParser): number {
-    return null;
+    const groups = _chunk(input.getValues<string>(), 3);
+    const badges = groups.map(group => getCommonItem(group.map(items => getItems(items))));
+    return _sumBy(badges, badge => getItemPriority(badge));
 }
 
 export default async (input: InputParser) => {
