@@ -42,11 +42,11 @@ export class IoHelper {
         return options[index] ? options[index].value : null;
     }
 
-    private static hasOption(flag: string): boolean {
+    public static hasOption(flag: string): boolean {
         return process.argv.findIndex(arg => arg === flag) !== -1;
     }
 
-    private static getOption(flag: string): string {
+    public static getOption(flag: string): string {
         const index = process.argv.findIndex(arg => arg === flag);
         if (index >= 0 && process.argv[index + 1]) {
             return process.argv[index + 1];

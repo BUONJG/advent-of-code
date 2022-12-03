@@ -1,16 +1,20 @@
 import { IoHelper, FileHelper, PromiseHelper } from './helpers';
 
+const execute = async (year: number | string, day: number | string, bootstrapIfMissing = false): Promise<void> => {
+    day = `00${day}`.slice(-2);
+    const scriptLocation = `./src/${year}-day-${day}.ts`;
 
-(async () => {
-    const year = await IoHelper.ask('Event year: ', '-y');
-    const day = await IoHelper.ask('Day: ', '-d');
+    if (!bootstrapIfMissing && !await FileHelper.exists(scriptLocation)) {
+        return;
+    }
 
-    console.log(`Executing Year ${year} / Day ${day}`);
+    console.log(`**********************`);
+    console.log(`* Year ${year} / Day ${day} *`);
+    console.log(`**********************`);
 
     const controlLocation = `./data/${year}-day-${day}.control`;
     const solutionLocation = `./data/${year}-day-${day}.control.json`;
     const inputLocation = `./data/${year}-day-${day}.input`;
-    const scriptLocation = `./src/${year}-day-${day}.ts`;
 
     await FileHelper.writeIfNotExists(controlLocation, '');
     await FileHelper.writeIfNotExists(solutionLocation, '[null, null]');
@@ -43,7 +47,20 @@ import { IoHelper, FileHelper, PromiseHelper } from './helpers';
     solutions.forEach((solution, index) => {
         console.log(`Solution ${index + 1}: ${solution ?? 'Not implemented yet...'}`);
     });
+}
 
+(async () => {
+    if (IoHelper.hasOption('-a')) {
+        for (let year = 2015; year <= new Date().getFullYear(); year++) {
+            for (let day = 1; day <= 25; day++) {
+                await execute(year, day);
+            }
+        }
+    } else {
+        const year = await IoHelper.ask('Event year: ', '-y');
+        const day = await IoHelper.ask('Day: ', '-d');
+        await execute(year, day);
+    }
 })()
     .then(() => process.exit(0))
     .catch(error => {
