@@ -8,36 +8,7 @@ interface BoardItem {
 type BoardLine = BoardItem[];
 type Board = BoardLine[];
 
-export default async (input: InputParser) => {
-    return [part1(input), part2(input)];
-}
 
-function part1(input: InputParser): number {
-    const { drawnNumbers, boards } = parseInput(input);
-
-    let winningBoard: Board; let lastDrawNumber: number;
-    while (!winningBoard) {
-        lastDrawNumber = drawnNumbers.shift();
-        markBoards(boards, lastDrawNumber);
-        winningBoard = boards.find(b => isWinningBoard(b));
-    }
-
-    return sumOfUnmarkedNumbers(winningBoard) * lastDrawNumber;
-}
-
-function part2(input: InputParser): number {
-    const { drawnNumbers, boards } = parseInput(input);
-
-    let remainingBoards = [...boards]; let lastWinningBoard: Board; let lastDrawNumber: number;
-    while (remainingBoards.length) {
-        lastDrawNumber = drawnNumbers.shift();
-        markBoards(remainingBoards, lastDrawNumber);
-        lastWinningBoard = remainingBoards.find(b => isWinningBoard(b));
-        remainingBoards = remainingBoards.filter(b => !isWinningBoard(b));
-    }
-
-    return sumOfUnmarkedNumbers(lastWinningBoard) * lastDrawNumber;
-}
 
 function parseInput(input: InputParser) {
     const [drawnNumbersInput, ...boardInputs] = input.getGroupOfLines();
@@ -75,4 +46,35 @@ function transpose(board: Board): Board {
 
 function sumOfUnmarkedNumbers(board: Board): number {
     return _sum(_flatMapDeep(board).filter(i => !i.marked).map(i => i.value));
+}
+
+function part1(input: InputParser): number {
+    const { drawnNumbers, boards } = parseInput(input);
+
+    let winningBoard: Board; let lastDrawNumber: number;
+    while (!winningBoard) {
+        lastDrawNumber = drawnNumbers.shift();
+        markBoards(boards, lastDrawNumber);
+        winningBoard = boards.find(b => isWinningBoard(b));
+    }
+
+    return sumOfUnmarkedNumbers(winningBoard) * lastDrawNumber;
+}
+
+function part2(input: InputParser): number {
+    const { drawnNumbers, boards } = parseInput(input);
+
+    let remainingBoards = [...boards]; let lastWinningBoard: Board; let lastDrawNumber: number;
+    while (remainingBoards.length) {
+        lastDrawNumber = drawnNumbers.shift();
+        markBoards(remainingBoards, lastDrawNumber);
+        lastWinningBoard = remainingBoards.find(b => isWinningBoard(b));
+        remainingBoards = remainingBoards.filter(b => !isWinningBoard(b));
+    }
+
+    return sumOfUnmarkedNumbers(lastWinningBoard) * lastDrawNumber;
+}
+
+export default async (input: InputParser) => {
+    return [part1(input), part2(input)];
 }
