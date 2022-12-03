@@ -1,3 +1,5 @@
+import { getTuple, Tuple } from "./types";
+
 export class InputParser {
     public constructor(private input: string) {
 
@@ -15,8 +17,16 @@ export class InputParser {
         return this.getLines(separator).map(v => v.get<T>());
     }
 
+    public getTuple<T, L extends number>(length: L, separator = '\n'): Tuple<T, L> {
+        return getTuple<T, L>(this.getValues<T>(separator), length);
+    }
+
     public getNumbers(separator = '\n'): number[] {
         return this.getLines(separator).map(v => v.getNumber());
+    }
+
+    public getTupleNumbers<L extends number>(length: L, separator = '\n'): Tuple<number, L> {
+        return getTuple<number, L>(this.getNumbers(separator), length);
     }
 
     public getLines(separator = '\n'): InputParser[] {
