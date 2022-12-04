@@ -7,5 +7,6 @@ export {
     zip as _zip,
     chunk as _chunk,
     intersection as _intersection,
-    sumBy as _sumBy
+    sumBy as _sumBy,
+    uniq as _uniq
 } from 'lodash';
