@@ -8,5 +8,6 @@ export {
     chunk as _chunk,
     intersection as _intersection,
     sumBy as _sumBy,
-    uniq as _uniq
+    uniq as _uniq,
+    isEqual as _isEqual
 } from 'lodash';

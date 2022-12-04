@@ -9,6 +9,10 @@ export class Tuple<T, N extends number> implements Iterable<T> {
         return new TupleIterator(this.array);
     }
 
+    public get(index: number): T {
+        return this.array[index];
+    }
+
     public map<R>(mapper: (v: T) => R): Tuple<R, N> {
         return new Tuple<R, N>(this.array.map(v => mapper(v)), this.length);
     }
