@@ -7,7 +7,7 @@ type Code2 = 'X' | 'Y' | 'Z';
 type RoundResult = 0 | 3 | 6;
 type ShapePoint = 1 | 2 | 3;
 
-const shapes: Tuple<Shape, 3> = ['Rock', 'Paper', 'Scissors'];
+const shapes: Shape[] = ['Rock', 'Paper', 'Scissors'];
 
 const parseShape = (code: Code1): Shape => {
     return Switch<Code1, Shape>(code)
@@ -33,7 +33,7 @@ const getShapePoints = (shape: Shape): ShapePoint => {
 }
 
 const getScore = (shape1: Shape, shape2: Shape): RoundResult => {
-    return Switch<Tuple<Shape, 2>, RoundResult>([shape1, shape2])
+    return Switch<[Shape, Shape], RoundResult>([shape1, shape2])
         .case(([shape1, shape2]) => shape1 === shape2, 3)
         .case(['Rock', 'Paper'], 6)
         .case(['Paper', 'Scissors'], 6)

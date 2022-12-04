@@ -3,6 +3,6 @@ export * from './file-helper';
 export * from './promise-helper';
 export * from './lodash';
 export * from './switch';
-export * from './types';
+export * from './tuple';
 export * from './input-parser';
 export * from './assert';

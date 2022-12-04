@@ -31,7 +31,7 @@ const traceDiagonalLine = (diagram: Diagram, x1: number, y1: number, x2: number,
 };
 
 function part1(input: InputParser): number {
-    const lines: Line[] = <any>input.getLines().map(l => l.getLines(' -> ').map(c => c.getTupleNumbers(2, ',')));
+    const lines: Line[] = input.getLines().map(l => l.getTupleLines(2, ' -> ').map(c => c.getTupleNumbers(2, ',')));
 
     const diagram: Diagram = new Map<string, number>();
     for (const line of lines) {
@@ -44,7 +44,7 @@ function part1(input: InputParser): number {
 }
 
 function part2(input: InputParser): number {
-    const lines: Line[] = <any>input.getLines().map(l => l.getLines(' -> ').map(c => c.getTupleNumbers(2, ',')));
+    const lines: Line[] = input.getLines().map(l => l.getTupleLines(2, ' -> ').map(c => c.getTupleNumbers(2, ',')));
 
     const diagram: Diagram = new Map<string, number>();
     for (const line of lines) {

@@ -24,7 +24,7 @@ const hasOverlap = (pair: PairOfAssignment): boolean => {
 }
 
 const getPairOfAssignments = (input: InputParser): PairOfAssignment[] => {
-    return <any>input.getLines().map(l => l.getLines(',').map(a => a.getTupleNumbers(2, '-')));
+    return input.getLines().map(l => l.getTupleLines(2, ',').map(a => a.getTupleNumbers(2, '-')));
 }
 
 function part1(input: InputParser): number {
