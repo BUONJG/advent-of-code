@@ -1,8 +1,8 @@
 
-import { InputParser, Tuple, _intersection, _uniq } from './helpers';
+import { InputParser, _intersection, _uniq } from './helpers';
 
-type Assignment = Tuple<number, 2>;
-type PairOfAssignment = Tuple<Assignment, 2>;
+type Assignment = number[];
+type PairOfAssignment = Assignment[];
 
 const doesAssignmentFullyContainsTheOther = (pair: PairOfAssignment): boolean => {
     const [assignment1, assignment2] = pair;
@@ -24,7 +24,7 @@ const hasOverlap = (pair: PairOfAssignment): boolean => {
 }
 
 const getPairOfAssignments = (input: InputParser): PairOfAssignment[] => {
-    return input.getLines().map(l => l.getTupleLines(2, ',').map(a => a.getTupleNumbers(2, '-')));
+    return input.getLines().map(l => l.getLines(',').map(a => a.getNumbers('-')));
 }
 
 function part1(input: InputParser): number {

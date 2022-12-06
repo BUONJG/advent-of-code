@@ -1,5 +1,5 @@
 
-import { InputParser, Switch, Tuple, _sum } from "./helpers";
+import { InputParser, Switch, _sum } from "./helpers";
 
 type Shape = 'Rock' | 'Paper' | 'Scissors';
 type Code1 = 'A' | 'B' | 'C' | 'X' | 'Y' | 'Z';

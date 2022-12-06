@@ -1,8 +1,8 @@
 
-import { assert, Tuple, InputParser, Switch, _max, _min } from './helpers';
+import { assert, InputParser, Switch, _max, _min } from './helpers';
 
-type Coordinates = Tuple<number, 2>;
-type Line = Tuple<Coordinates, 2>;
+type Coordinates = number[];
+type Line = Coordinates[];
 type Diagram = Map<string, number>;
 
 const incrementPoint = (diagram: Diagram, x: number, y: number): void => {
@@ -31,7 +31,7 @@ const traceDiagonalLine = (diagram: Diagram, x1: number, y1: number, x2: number,
 };
 
 function part1(input: InputParser): number {
-    const lines: Line[] = input.getLines().map(l => l.getTupleLines(2, ' -> ').map(c => c.getTupleNumbers(2, ',')));
+    const lines: Line[] = input.getLines().map(l => l.getLines(' -> ').map(c => c.getNumbers(',')));
 
     const diagram: Diagram = new Map<string, number>();
     for (const line of lines) {
@@ -44,7 +44,7 @@ function part1(input: InputParser): number {
 }
 
 function part2(input: InputParser): number {
-    const lines: Line[] = input.getLines().map(l => l.getTupleLines(2, ' -> ').map(c => c.getTupleNumbers(2, ',')));
+    const lines: Line[] = input.getLines().map(l => l.getLines(' -> ').map(c => c.getNumbers(',')));
 
     const diagram: Diagram = new Map<string, number>();
     for (const line of lines) {
