@@ -1,5 +1,5 @@
 
-import { InputParser } from './helpers';
+import { InputParser, repeat } from './helpers';
 
 interface Move {
     craneCount: number;
@@ -15,7 +15,7 @@ const parseInput = (input: InputParser): { state: State; moves: Move[] } => {
     const state: State = new Map<number, Crane[]>();
     const stateLines = input.getGroupOfLines()[0].reverse();
     for (let line = 1; line < stateLines.length; line++) {
-        for (let i = 0; i < 100; i++) {
+        repeat(100, (i) => {
             const column = +stateLines[0].get<string>()[1 + 4 * i];
             const crane: Crane = stateLines[line].get<string>()[1 + 4 * i];
             if (![undefined, ' '].includes(crane)) {
@@ -24,7 +24,7 @@ const parseInput = (input: InputParser): { state: State; moves: Move[] } => {
                 }
                 state.get(column).push(stateLines[line].get<string>()[1 + 4 * i]);
             }
-        }
+        });
     }
 
     const moves: Move[] = input.getGroupOfLines()[1].map(l => l.getValues(' ')).map(move => ({ craneCount: +move[1], from: +move[3], to: +move[5] }));
@@ -36,12 +36,11 @@ function part1(input: InputParser): string {
     const { state, moves } = parseInput(input);
 
     for (const move of moves) {
-        for (let c = 0; c < move.craneCount; c++) {
+        repeat(move.craneCount, () => {
             const movedCrane = state.get(move.from).pop();
             state.get(move.to).push(movedCrane);
-        }
+        });
     }
-
 
     return Array.from(state.values()).map(c => c.pop()).join('');
 }

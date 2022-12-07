@@ -6,3 +6,4 @@ export * from './switch';
 export * from './tuple';
 export * from './input-parser';
 export * from './assert';
+export * from './repeat';

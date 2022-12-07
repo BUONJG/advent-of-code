@@ -47,8 +47,6 @@ const translate = (code: CodedDigit, dictionary: Dictionary): Digit => {
     return getDigit(code.map(c => invertedDictionary.get(c)))
 }
 
-
-
 function part1(input: InputParser): number {
     const digits = input.getLines().flatMap(l => l.getTupleLines(2, ' | ').get(1).getValues<CodedDigit>(' '));
     return digits.filter(d => predictibleDigit(d)).length;
