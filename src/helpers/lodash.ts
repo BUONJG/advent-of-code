@@ -9,5 +9,7 @@ export {
     intersection as _intersection,
     sumBy as _sumBy,
     uniq as _uniq,
-    isEqual as _isEqual
+    uniqBy as _uniqBy,
+    isEqual as _isEqual,
+    compact as _compact
 } from 'lodash';

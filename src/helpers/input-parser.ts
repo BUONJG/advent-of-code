@@ -1,3 +1,4 @@
+import { _chunk, _flatMapDeep } from './lodash';
 import { Tuple } from './tuple';
 
 export class InputParser {
@@ -7,6 +8,10 @@ export class InputParser {
 
     public get<T>(): T {
         return this.input as any;
+    }
+
+    public getCharacters(): string[] {
+        return _flatMapDeep(_chunk(this.input, 1));
     }
 
     public getNumber(): number {
