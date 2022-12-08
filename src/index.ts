@@ -1,5 +1,24 @@
 import { IoHelper, FileHelper, PromiseHelper, InputParser } from './helpers';
 
+const getUserSession = async (): Promise<string> => {
+    const location = `./data/.session`;
+    if (!await FileHelper.exists(location)) {
+        await FileHelper.write(location, await IoHelper.ask('Please enter your user session: '));
+    }
+
+    return FileHelper.read(location);
+}
+
+const getInput = async (year: number | string, day: number | string): Promise<string> => {
+    const session = await getUserSession();
+    const response = await fetch(`https://adventofcode.com/${year}/day/${+day}/input`, {
+        headers: {
+            cookie: `session=${session};`
+        }
+    });
+    return response.text();
+}
+
 const execute = async (year: number | string, day: number | string, bootstrapIfMissing = false): Promise<void> => {
     day = `00${day}`.slice(-2);
     const scriptLocation = `./src/${year}-day-${day}.ts`;
@@ -19,25 +38,35 @@ const execute = async (year: number | string, day: number | string, bootstrapIfM
 
     await FileHelper.writeIfNotExists(controlLocation, '');
     await FileHelper.writeIfNotExists(solutionLocation, '[null, null]');
-    await FileHelper.writeIfNotExists(inputLocation, '');
+    if (!await FileHelper.exists(inputLocation)) {
+        await FileHelper.write(inputLocation, await getInput(year, day));
+    }
     if (await FileHelper.writeIfNotExists(scriptLocation, await FileHelper.read(templateLocation))) {
         await PromiseHelper.wait(2);
     }
 
     const action = await import(`./${year}-day-${day}`);
     const controlInput = await FileHelper.read(controlLocation);
+    if (!controlInput) {
+        throw new Error(`Please complete control input in ${controlLocation}`);
+    }
     const controlSolutions = await action.default(new InputParser(controlInput));
 
     if (!Array.isArray(controlSolutions) || controlSolutions.length !== 2) {
         throw new Error(`Incorrect response (array expected)!`);
     }
 
-    const expectedSolutions = await FileHelper.read<number[]>(solutionLocation, 'json');
-    expectedSolutions.forEach((expectedSolution, index) => {
-        if (expectedSolution !== controlSolutions[index]) {
-            throw new Error(`Solution ${index + 1} is wrong: expected = ${expectedSolution} / response = ${controlSolutions[index]}`);
+    const expectedSolutions = await FileHelper.read<(string | number)[]>(solutionLocation, 'json');
+    for (let index = 0; index < expectedSolutions.length; index++) {
+        if (!expectedSolutions[index]) {
+            const solution = await IoHelper.ask(`Please enter part ${index + 1} control solution: `);
+            expectedSolutions[index] = ('' + (+solution)) === solution ? +solution : solution;
+            await FileHelper.write(solutionLocation, JSON.stringify(expectedSolutions, null, 4));
         }
-    })
+        if (expectedSolutions[index] !== controlSolutions[index]) {
+            throw new Error(`Solution ${index + 1} is wrong: expected = ${expectedSolutions[index]} / response = ${controlSolutions[index]}`);
+        }
+    }
 
     const input = await FileHelper.read(inputLocation);
     if (!input) {
