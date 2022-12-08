@@ -10,8 +10,8 @@ export class InputParser {
         return this.input as any;
     }
 
-    public getCharacters(): string[] {
-        return _flatMapDeep(_chunk(this.input, 1));
+    public getCharacters<T>(): T[] {
+        return _flatMapDeep(_chunk(this.input as any, 1));
     }
 
     public getNumber(): number {

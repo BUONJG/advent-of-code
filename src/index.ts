@@ -50,18 +50,22 @@ const execute = async (year: number | string, day: number | string, bootstrapIfM
     });
 }
 
+const executeAll = async (): Promise<void> => {
+    for (let year = 2015; year <= new Date().getFullYear(); year++) {
+        for (let day = 1; day <= 25; day++) {
+            await execute(year, day);
+        }
+    }
+}
+
 (async () => {
     if (IoHelper.hasOption('-a')) {
-        for (let year = 2015; year <= new Date().getFullYear(); year++) {
-            for (let day = 1; day <= 25; day++) {
-                await execute(year, day);
-            }
-        }
-    } else {
-        const year = await IoHelper.ask('Event year: ', '-y');
-        const day = await IoHelper.ask('Day: ', '-d');
-        await execute(year, day, true);
+        return executeAll();
     }
+
+    const year = await IoHelper.ask('Event year: ', '-y');
+    const day = await IoHelper.ask('Day: ', '-d');
+    return execute(year, day, true);
 })()
     .then(() => process.exit(0))
     .catch(error => {

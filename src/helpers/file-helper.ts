@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
 const fsPromises = fs.promises;
 
@@ -10,7 +10,7 @@ export class FileHelper {
     }
 
     public static async read<T = string>(location: string, contentType: 'json' = null): Promise<T> {
-        const content = await fsPromises.readFile(location, { encoding: 'utf-8'});
+        const content = await fsPromises.readFile(location, { encoding: 'utf-8' });
         if (contentType === 'json') {
             return JSON.parse(content);
         }
