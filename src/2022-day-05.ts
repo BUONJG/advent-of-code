@@ -16,13 +16,13 @@ const parseInput = (input: InputParser): { state: State; moves: Move[] } => {
     const stateLines = input.getGroupOfLines()[0].reverse();
     for (let line = 1; line < stateLines.length; line++) {
         repeat(100, (i) => {
-            const column = +stateLines[0].get<string>()[1 + 4 * i];
-            const crane: Crane = stateLines[line].get<string>()[1 + 4 * i];
+            const column = +stateLines[0].get()[1 + 4 * i];
+            const crane: Crane = stateLines[line].get()[1 + 4 * i];
             if (![undefined, ' '].includes(crane)) {
                 if (!state.has(column)) {
                     state.set(column, []);
                 }
-                state.get(column).push(stateLines[line].get<string>()[1 + 4 * i]);
+                state.get(column).push(stateLines[line].get()[1 + 4 * i]);
             }
         });
     }

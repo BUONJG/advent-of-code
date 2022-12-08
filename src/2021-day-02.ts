@@ -3,7 +3,7 @@ import { InputParser, Switch, Tuple } from './helpers';
 type Direction = 'forward' | 'up' | 'down';
 
 function part1(input: InputParser): number {
-    const instructions: [Direction, number][] = input.getLines().map(l => l.getValues<string>(' ')).map(i => ([i[0] as any, +i[1]]));
+    const instructions: [Direction, number][] = input.getLines().map(l => l.getValues(' ')).map(i => ([i[0] as any, +i[1]]));
 
     const position = { horizontal: 0, depth: 0 };
     instructions.forEach(([direction, value]) => {

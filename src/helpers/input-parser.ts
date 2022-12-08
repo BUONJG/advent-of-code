@@ -6,11 +6,11 @@ export class InputParser {
 
     }
 
-    public get<T>(): T {
+    public get<T = string>(): T {
         return this.input as any;
     }
 
-    public getCharacters<T>(): T[] {
+    public getCharacters<T = string>(): T[] {
         return _flatMapDeep(_chunk(this.input as any, 1));
     }
 
@@ -18,7 +18,7 @@ export class InputParser {
         return +this.input;
     }
 
-    public getValues<T>(separator = '\n'): T[] {
+    public getValues<T = string>(separator = '\n'): T[] {
         return this.getLines(separator).map(v => v.get<T>());
     }
 

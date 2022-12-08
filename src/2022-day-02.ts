@@ -42,12 +42,12 @@ const getScore = (shape1: Shape, shape2: Shape): RoundResult => {
 }
 
 function part1(input: InputParser): number {
-    const rounds1 = input.getLines().map(l => l.getValues<string>(' ').map(r => parseShape(r as Code1)));
+    const rounds1 = input.getLines().map(l => l.getValues(' ').map(r => parseShape(r as Code1)));
     return _sum(rounds1.map(([shape1, shape2]) => getShapePoints(shape2) + getScore(shape1, shape2)));
 }
 
 function part2(input: InputParser): number {
-    const rounds2: [Shape, RoundResult][] = input.getLines().map(r => r.getValues<string>(' ')).map(r => [parseShape(r[0] as Code1), parseRoundResult(r[1] as Code2)]);
+    const rounds2: [Shape, RoundResult][] = input.getLines().map(r => r.getValues(' ')).map(r => [parseShape(r[0] as Code1), parseRoundResult(r[1] as Code2)]);
 
     const getShape2 = (shape1: Shape, roundResult: RoundResult): Shape => {
         return shapes.find(shape2 => getScore(shape1, shape2) === roundResult);

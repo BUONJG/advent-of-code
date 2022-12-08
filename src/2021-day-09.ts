@@ -50,12 +50,12 @@ const getNeighbors = (highmap: HighMap, x: number, y: number): Point[] => {
 }
 
 function part1(input: InputParser): number {
-    const highmap = input.getLines().map(i => i.getCharacters<string>());
+    const highmap = input.getLines().map(i => i.getCharacters());
     return _sumBy(getLowPoints(highmap), l => l.heigh + 1);
 }
 
 function part2(input: InputParser): number {
-    const highmap = input.getLines().map(i => i.getCharacters<string>());
+    const highmap = input.getLines().map(i => i.getCharacters());
 
     const basins = getLowPoints(highmap).map(lowPoint => getBasin(highmap, [lowPoint]));
 

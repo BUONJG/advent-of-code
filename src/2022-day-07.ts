@@ -46,13 +46,13 @@ const getDirectorySizes = (terminalOutputs: Output[]): Map<string, number> => {
 }
 
 function part1(input: InputParser): number {
-    const terminalOutputs = input.getLines().map(l => new Output(l.get<string>()));
+    const terminalOutputs = input.getLines().map(l => new Output(l.get()));
     const directorySizes = getDirectorySizes(terminalOutputs);
     return _sum(Array.from(directorySizes.values()).filter(s => s <= 100000));
 }
 
 function part2(input: InputParser): number {
-    const terminalOutputs = input.getLines().map(l => new Output(l.get<string>()));
+    const terminalOutputs = input.getLines().map(l => new Output(l.get()));
     const directorySizes = getDirectorySizes(terminalOutputs);
 
     const freeSpace = 70000000 - directorySizes.get('/');

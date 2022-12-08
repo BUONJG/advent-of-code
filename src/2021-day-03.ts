@@ -29,7 +29,7 @@ const getLeastCommonBit = (positions: string[], index: number, defaultResponse: 
 }
 
 function part1(input: InputParser): number {
-    const positions = input.getValues<string>();
+    const positions = input.getValues();
 
     let gamaRate = ''; let epsilonRate = '';
     for (let i = 0; i < positions[0].length; i++) {
@@ -41,7 +41,7 @@ function part1(input: InputParser): number {
 }
 
 function part2(input: InputParser): number {
-    const positions = input.getValues<string>();
+    const positions = input.getValues();
 
     let oxygenRatingPositions = [...positions]; let co2ScrubberRatingPositions = [...positions];
     for (let i = 0; i < positions[0].length; i++) {

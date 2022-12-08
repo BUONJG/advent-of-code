@@ -25,12 +25,12 @@ const getItems = (items: string): string[] => {
 }
 
 function part1(input: InputParser): number {
-    const rucksackCommonItems = input.getValues<string>().flatMap(r => getCommonItem(getCompartimentedItems(r)));
+    const rucksackCommonItems = input.getValues().flatMap(r => getCommonItem(getCompartimentedItems(r)));
     return _sumBy(rucksackCommonItems, i => getItemPriority(i));
 }
 
 function part2(input: InputParser): number {
-    const groups = _chunk(input.getValues<string>(), 3);
+    const groups = _chunk(input.getValues(), 3);
     const badges = groups.map(group => getCommonItem(group.map(items => getItems(items))));
     return _sumBy(badges, badge => getItemPriority(badge));
 }

@@ -11,7 +11,7 @@ const isStartOfMessageMarker = (buffer: string): boolean => {
 }
 
 function part1(input: InputParser): number {
-    const datastream = input.get<string>();
+    const datastream = input.get();
 
     let position = 0; let marker: string;
     do {
@@ -23,7 +23,7 @@ function part1(input: InputParser): number {
 }
 
 function part2(input: InputParser): number {
-    const datastream = input.get<string>();
+    const datastream = input.get();
 
     let position = 0; let marker: string;
     do {
