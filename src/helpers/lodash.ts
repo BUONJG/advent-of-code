@@ -11,5 +11,6 @@ export {
     uniq as _uniq,
     uniqBy as _uniqBy,
     isEqual as _isEqual,
-    compact as _compact
+    compact as _compact,
+    take as _take
 } from 'lodash';
