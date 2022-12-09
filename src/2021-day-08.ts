@@ -48,7 +48,7 @@ const translate = (code: CodedDigit, dictionary: Dictionary): Digit => {
 }
 
 function part1(input: InputParser): number {
-    const digits = input.getLines().flatMap(l => l.getTupleLines(2, ' | ').get(1).getValues<CodedDigit>(' '));
+    const digits = input.getLines().flatMap(l => l.getTupleLines(2, ' | ')[1].getValues<CodedDigit>(' '));
     return digits.filter(d => predictibleDigit(d)).length;
 }
 
@@ -59,7 +59,7 @@ function part2(input: InputParser): number {
     for (const codedLine of codedLines) {
         const dictionary: Dictionary = new Map<Segment, SegmentCode>();
 
-        const signal = codedLine.get(0);
+        const signal = codedLine[0];
 
         const one = signal.find(c => c.length === 2);
         const four = signal.find(c => c.length === 4);
@@ -78,7 +78,7 @@ function part2(input: InputParser): number {
         dictionary.set('s5', findSegmentCodeNotIn(four, [dictionary.get('s1'), dictionary.get('s2'), dictionary.get('s7')]));
         dictionary.set('s3', findSegmentCodeNotIn(three, [dictionary.get('s1'), dictionary.get('s2'), dictionary.get('s6'), dictionary.get('s7')]));
 
-        const output = codedLine.get(1);
+        const output = codedLine[1];
 
         let value = '';
         for (const codedDigit of output) {
