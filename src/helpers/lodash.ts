@@ -14,3 +14,12 @@ export {
     compact as _compact,
     take as _take
 } from 'lodash';
+
+export const _numbers = (from: number, to: number): number[] => {
+    const result: number[] = [];
+    for (let i = from; i <= to; i++) {
+        result.push(i);
+    }
+
+    return result;
+}

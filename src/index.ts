@@ -56,8 +56,15 @@ const execute = async (year: number | string, day: number | string, bootstrapIfM
         throw new Error(`Incorrect response (array expected)!`);
     }
 
+    const input = await FileHelper.read(inputLocation);
+    if (!input) {
+        throw new Error(`Please set your input in ${inputLocation}`);
+    }
+
     const expectedSolutions = await FileHelper.read<(string | number)[]>(solutionLocation, 'json');
-    for (let index = 0; index < expectedSolutions.length; index++) {
+    const solutions: number[] = await action.default(new InputParser(input));
+
+    for (let index = 0; index < 2; index++) {
         if (!expectedSolutions[index]) {
             const solution = await IoHelper.ask(`Please enter part ${index + 1} control solution: `);
             expectedSolutions[index] = ('' + (+solution)) === solution ? +solution : solution;
@@ -65,18 +72,10 @@ const execute = async (year: number | string, day: number | string, bootstrapIfM
         }
         if (expectedSolutions[index] !== controlSolutions[index]) {
             throw new Error(`Solution ${index + 1} is wrong: expected = ${expectedSolutions[index]} / response = ${controlSolutions[index]}`);
+        } else {
+            console.log(`Solution ${index + 1}: ${solutions[index] ?? 'Not implemented yet...'}`);
         }
     }
-
-    const input = await FileHelper.read(inputLocation);
-    if (!input) {
-        throw new Error(`Please set your input in ${inputLocation}`);
-    }
-
-    const solutions: number[] = await action.default(new InputParser(input));
-    solutions.forEach((solution, index) => {
-        console.log(`Solution ${index + 1}: ${solution ?? 'Not implemented yet...'}`);
-    });
 }
 
 const executeAll = async (): Promise<void> => {
